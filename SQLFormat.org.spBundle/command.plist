@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>author</key>
+	<string>Dennis Stücken</string>
+	<key>category</key>
+	<string></string>
+	<key>command</key>
+	<string>#!/usr/bin/php
+&lt;?php
+// author dennis stücken &lt;ds@synetics.de&gt;
+// props to sqlformat.org
+
+$url = "http://sqlformat.org/api/v1/format";
+
+$data = http_build_query(
+    array(
+        'sql' =&gt; file_get_contents('php://stdin'),
+        'reindent' =&gt; 1,
+        'indent_width' =&gt; 2,
+        //'identifier_case' =&gt; 'lower',
+        //'keyword_case' =&gt; 'upper',
+        'strip_comments' =&gt; 0
+    )
+);
+
+$result = json_decode(file_get_contents($url, false, stream_context_create(array('http' =&gt;
+    array(
+        'method'  =&gt; 'POST',
+        'header'  =&gt; 'Content-type: application/x-www-form-urlencoded',
+        'content' =&gt; $data
+    )
+))), true);
+
+file_put_contents('/tmp/test', var_export($result,true));
+echo trim($result['result']);</string>
+	<key>contact</key>
+	<string>qf@flargvpf.qr</string>
+	<key>input</key>
+	<string>selectedtext</string>
+	<key>input_fallback</key>
+	<string>entirecontent</string>
+	<key>internalKeyEquivalent</key>
+	<dict>
+		<key>characters</key>
+		<string>L</string>
+		<key>keyCode</key>
+		<integer>37</integer>
+		<key>modifierFlags</key>
+		<integer>1572864</integer>
+	</dict>
+	<key>keyEquivalent</key>
+	<string>~@l</string>
+	<key>name</key>
+	<string>Format SQL</string>
+	<key>output</key>
+	<string>replacecontent</string>
+	<key>scope</key>
+	<string>inputfield</string>
+	<key>uuid</key>
+	<string>6927DC4A-E9DF-4664-B4C9-975C61418DA7</string>
+</dict>
+</plist>
